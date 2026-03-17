@@ -22,14 +22,14 @@ describe("TodoForm", () => {
     expect(setTodo).toHaveBeenCalledWith("New todo")
   })
 
-  it("calls onSubmit when the form is submitted via button click", () => {
+  it("calls onSubmit when the button is clicked", () => {
     const onSubmit = vi.fn((e) => e.preventDefault())
     render(<TodoForm todo="Buy milk" setTodo={vi.fn()} onSubmit={onSubmit} />)
     fireEvent.click(screen.getByRole("button", { name: /add/i }))
     expect(onSubmit).toHaveBeenCalledTimes(1)
   })
 
-  it("calls onSubmit when the form is submitted via enter key", () => {
+  it("calls onSubmit when enter is pressed in the input", () => {
     const onSubmit = vi.fn((e) => e.preventDefault())
     render(<TodoForm todo="Buy milk" setTodo={vi.fn()} onSubmit={onSubmit} />)
     fireEvent.submit(screen.getByRole("textbox"))

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest"
 import { render, screen } from "@testing-library/react"
-import { TodoList } from "../TodoItem/TodoList"
+import { TodoList } from "./TodoList"
 import type { Todo } from "../../types/Todo"
 
 const mockList: Todo[] = [
@@ -10,23 +10,33 @@ const mockList: Todo[] = [
 
 describe("TodoList", () => {
   it("renders the empty state message when list is empty", () => {
-    render(<TodoList list={[]} onCheck={vi.fn()} />)
+    render(<TodoList list={[]} onCheck={vi.fn()} onDelete={vi.fn()} onReorder={vi.fn()} />)
     expect(screen.getByText(/please add a todo/i)).toBeDefined()
   })
 
   it("does not render the empty state when list has items", () => {
-    render(<TodoList list={mockList} onCheck={vi.fn()} />)
+    render(<TodoList list={mockList} onCheck={vi.fn()} onDelete={vi.fn()} onReorder={vi.fn()} />)
     expect(screen.queryByText(/please add a todo/i)).toBeNull()
   })
 
   it("renders the correct number of list items", () => {
-    render(<TodoList list={mockList} onCheck={vi.fn()} />)
+    render(<TodoList list={mockList} onCheck={vi.fn()} onDelete={vi.fn()} onReorder={vi.fn()} />)
     expect(screen.getAllByRole("listitem")).toHaveLength(2)
   })
 
   it("renders the text of each todo", () => {
-    render(<TodoList list={mockList} onCheck={vi.fn()} />)
+    render(<TodoList list={mockList} onCheck={vi.fn()} onDelete={vi.fn()} onReorder={vi.fn()} />)
     expect(screen.getByText("Buy milk")).toBeDefined()
     expect(screen.getByText("Walk the dog")).toBeDefined()
+  })
+
+  it("renders a delete button for each item", () => {
+    render(<TodoList list={mockList} onCheck={vi.fn()} onDelete={vi.fn()} onReorder={vi.fn()} />)
+    expect(screen.getAllByLabelText("Delete todo")).toHaveLength(2)
+  })
+
+  it("renders a drag handle for each item", () => {
+    render(<TodoList list={mockList} onCheck={vi.fn()} onDelete={vi.fn()} onReorder={vi.fn()} />)
+    expect(screen.getAllByLabelText("Drag to reorder")).toHaveLength(2)
   })
 })

@@ -11,6 +11,17 @@ export function toggleTodo(list: Todo[], id: number): Todo[] {
   )
 }
 
+export function deleteTodo(list: Todo[], id: number): Todo[] {
+  return list.filter((item) => item.id !== id)
+}
+
+export function reorderTodos(list: Todo[], oldIndex: number, newIndex: number): Todo[] {
+  const updated = [...list]
+  const [moved] = updated.splice(oldIndex, 1)
+  updated.splice(newIndex, 0, moved)
+  return updated
+}
+
 export function loadList(): Todo[] {
   try {
     const stored = localStorage.getItem("todos")

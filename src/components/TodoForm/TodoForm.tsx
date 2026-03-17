@@ -10,6 +10,7 @@ export function TodoForm({ todo, setTodo, onSubmit }: TodoFormProps) {
       <input
         type="text"
         aria-label="Add your todo"
+        placeholder="Add a new todo..."
         value={todo}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTodo(e.target.value)}
       />

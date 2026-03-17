@@ -47,6 +47,23 @@ describe("App", () => {
     expect(checkbox.checked).toBe(true)
   })
 
+  it("deletes a todo when the delete button is clicked", () => {
+    render(<App />)
+    fireEvent.change(screen.getByRole("textbox"), { target: { value: "Buy milk" } })
+    fireEvent.click(screen.getByRole("button", { name: /add/i }))
+    fireEvent.click(screen.getByLabelText("Delete todo"))
+    expect(screen.queryByText("Buy milk")).toBeNull()
+  })
+
+  it("removes deleted todo from localStorage", () => {
+    render(<App />)
+    fireEvent.change(screen.getByRole("textbox"), { target: { value: "Buy milk" } })
+    fireEvent.click(screen.getByRole("button", { name: /add/i }))
+    fireEvent.click(screen.getByLabelText("Delete todo"))
+    const stored = JSON.parse(localStorage.getItem("todos") || "[]")
+    expect(stored).toHaveLength(0)
+  })
+
   it("persists todos to localStorage when added", () => {
     render(<App />)
     fireEvent.change(screen.getByRole("textbox"), { target: { value: "Buy milk" } })
